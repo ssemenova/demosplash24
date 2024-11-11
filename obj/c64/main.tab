@@ -19,12 +19,6 @@ __fixargs__:
 __argsize__:
     Flags: SC_CONST SC_DEF
     Type:  unsigned char
-bg_flash_timer:
-    Flags: SC_AUTO SC_DEF SC_REF
-    Type:  int
-view_timer:
-    Flags: SC_AUTO SC_DEF SC_REF
-    Type:  int
 
 
 
@@ -56,6 +50,10 @@ x:
     AsmName: M0001
     Flags: SC_STATIC SC_DEF SC_REF
     Type:  char
+arrows_visible:
+    AsmName: M0002
+    Flags: SC_STATIC SC_DEF SC_REF
+    Type:  unsigned char
 
 
 
@@ -638,8 +636,8 @@ disco_str1:
     AsmName: _disco_str1
     Flags: SC_HAVEATTR SC_TU_STORAGE SC_DEF SC_REF
     Type:  const char[1000]
-disco_str2:
-    AsmName: _disco_str2
+hey_str:
+    AsmName: _hey_str
     Flags: SC_HAVEATTR SC_TU_STORAGE SC_DEF SC_REF
     Type:  const char[1000]
 irq_flag:
@@ -648,6 +646,10 @@ irq_flag:
     Type:  volatile unsigned char
 time_counter:
     AsmName: _time_counter
+    Flags: SC_HAVEATTR SC_TU_STORAGE SC_DEF SC_REF
+    Type:  volatile short
+curr_view:
+    AsmName: _curr_view
     Flags: SC_HAVEATTR SC_TU_STORAGE SC_DEF SC_REF
     Type:  volatile short
 arrow:

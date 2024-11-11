@@ -5,8 +5,8 @@ void init_irq(void);
 void init_sprites(void);
 void clear_scr(void);
 
-// extern const char *dancers_str;
-#include "dancer.h"
+// extern const char *neg_str;
+#include "backgrounds.h"
 
 struct position {
     char x;
@@ -55,11 +55,16 @@ struct position {
 #define BG_COLOR  (*(char *)0xd021)
 #define SCREEN_COLOR ((char *) 0xd800)
 
+
+#define SCREEN1_BEGIN_TIME 240
+#define SCREEN2_BEGIN_TIME 480
+#define SCREEN3_BEGIN_TIME 720
+#define FRAME_STEP 60
 volatile unsigned char irq_flag = 0;
 volatile short time_counter = 0;
+volatile short curr_view = 0;
 
 char arrow[] = {220, 220, 220, 220, 220};
-// char arrow[] = {60, 60, 60, 60, 60};
 
 void init_arrows(void) {
     SPRITE0_X = 0x1f; //3
@@ -91,8 +96,6 @@ void init_arrows(void) {
 unsigned char
 main(void)
 {
-    int bg_flash_timer = 0;
-    int view_timer = 0;
 
     init_irq();
     clear_scr();
@@ -108,45 +111,6 @@ main(void)
     while (1) {
         while (!irq_flag);
         irq_flag = 0;
-        bg_flash_timer++;
-        view_timer++;
-
-        if (bg_flash_timer == 40)
-        {
-            BG_COLOR = COLOR_LIGHTGREEN;
-            memcpy(SCREEN, disco_str2, 25 * 40);
-        }
-        else if (bg_flash_timer == 80)
-        {
-            BG_COLOR = COLOR_ORANGE;
-            memcpy(SCREEN, disco_str1, 25 * 40);
-        }
-        else if (bg_flash_timer == 120)
-        {
-            BG_COLOR = COLOR_CYAN;
-            memcpy(SCREEN, disco_str2, 25 * 40);
-        }
-        else if (bg_flash_timer == 160)
-        {
-            BG_COLOR = COLOR_LIGHTRED;
-            memcpy(SCREEN, disco_str1, 25 * 40);
-        }
-        else if (bg_flash_timer == 200)
-        {
-            BG_COLOR = COLOR_LIGHTBLUE;
-            memcpy(SCREEN, disco_str2, 25 * 40);
-        }
-        else if (bg_flash_timer == 240)
-        {
-            BG_COLOR = COLOR_PURPLE;
-            memcpy(SCREEN, disco_str1, 25 * 40);
-            bg_flash_timer = 0;
-        }
-        else if (view_timer == 240)
-        {
-            memcpy(SCREEN, dancer_str, 25 * 40);
-            view_timer = 0;
-        }
     }
 
     return 0;
@@ -251,19 +215,93 @@ void update_arrows() {
 
 void irq_handler(void) {
     static char x = 0;
+    static unsigned char arrows_visible = 1;
 
     irq_flag = 1;
-    time_counter++;
 
     // *(char *)(0xd020) = x++ >> 4; // Border changing colors
 
-    update_arrows();
+    if (curr_view == 0 || curr_view == 1 || curr_view == 3)
+    {
+        // 0, 1: First two rounds of flashing disco balls
+        // 3: One round of flashing disco balls
+        if (time_counter == 1)
+        {
+            arrows_visible = 1;
+            BG_COLOR = COLOR_PURPLE;
+            if (curr_view != 0) 
+            {
+                // Screen already copied at the very beginning
+                memcpy(SCREEN, disco_str1, 25 * 40);
+            }
+        } if (time_counter == FRAME_STEP)
+        {
+            BG_COLOR = COLOR_LIGHTGREEN;
+        }
+        else if (time_counter == FRAME_STEP * 2)
+        {
+            BG_COLOR = COLOR_ORANGE;
+        }
+        else if (time_counter == FRAME_STEP * 3)
+        {
+            BG_COLOR = COLOR_CYAN;
+        }
+        else if (time_counter == FRAME_STEP * 4)
+        {
+            BG_COLOR = COLOR_LIGHTRED;
+        }
+        else if (time_counter == FRAME_STEP * 5)
+        {
+            BG_COLOR = COLOR_LIGHTBLUE;
+        } else if (time_counter == FRAME_STEP * 6) {
+            time_counter = 0;
+            curr_view++;
+        }
+    }
+    else if (curr_view == 2)
+    {
+        // 2: Dancing people
+        if (time_counter == 1)
+        {
+            arrows_visible = 0;
+            memcpy(SCREEN, dancer_str, 25 * 40);
+        } else if (time_counter == FRAME_STEP * 5) {
+            // Back to disco
+            time_counter = 0;
+            curr_view++;
+        }
+    } else if (curr_view == 4) {
+        // 4: Hey!
+        if (time_counter == 1)
+        {
+            arrows_visible = 0;
+            memcpy(SCREEN, hey_str, 25 * 40);
+        }
+    }
 
-    arrow[0]--;
-    arrow[1]--;
-    arrow[2]--;
-    arrow[3]--;
-    arrow[4]--;
+    if (arrows_visible)
+    {
+        update_arrows();
+
+        arrow[0]--;
+        arrow[1]--;
+        arrow[2]--;
+        arrow[3]--;
+        arrow[4]--;
+    } else {
+        arrow[0] = 220;
+        arrow[1] = 220;
+        arrow[2] = 220;
+        arrow[3] = 220;
+        arrow[4] = 220;
+        SPRITE_POS[0].y = 0;
+        SPRITE_POS[1].y = 0;
+        SPRITE_POS[2].y = 0;
+        SPRITE_POS[3].y = 0;
+        SPRITE_POS[4].y = 0;
+    }
+
+    time_counter++;
 
     return;
 }

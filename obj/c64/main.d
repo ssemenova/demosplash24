@@ -1,4 +1,4 @@
-obj/c64/main.o:	src/main.c src/dancer.h
+obj/c64/main.o:	src/main.c src/backgrounds.h
 
-src/main.c src/dancer.h:
+src/main.c src/backgrounds.h:
 

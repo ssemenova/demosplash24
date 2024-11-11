@@ -1,29 +1,25 @@
 Modules list:
 -------------
 main.o:
-    CODE              Offs=000000  Size=00053F  Align=00001  Fill=0000
+    CODE              Offs=000000  Size=00061F  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=000BB8  Align=00001  Fill=0000
-    DATA              Offs=000000  Size=000009  Align=00001  Fill=0000
+    DATA              Offs=000000  Size=00000C  Align=00001  Fill=0000
 arrows.o:
-    CODE              Offs=00053F  Size=00037F  Align=00001  Fill=0000
+    CODE              Offs=00061F  Size=00037F  Align=00001  Fill=0000
     SPRITES           Offs=000000  Size=000400  Align=00001  Fill=0000
+backgrounds.o:
 code.o:
-    CODE              Offs=0008BE  Size=000028  Align=00001  Fill=0000
-dancers.o:
+    CODE              Offs=00099E  Size=000028  Align=00001  Fill=0000
 irq.o:
-    CODE              Offs=0008E6  Size=000036  Align=00001  Fill=0000
-/Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(addeqsp.o):
-    CODE              Offs=00091C  Size=000011  Align=00001  Fill=0000
-/Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(addysp.o):
-    CODE              Offs=00092D  Size=00000E  Align=00001  Fill=0000
+    CODE              Offs=0009C6  Size=000036  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(bneg.o):
-    CODE              Offs=00093B  Size=00000E  Align=00001  Fill=0000
+    CODE              Offs=0009FC  Size=00000E  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(callmain.o):
-    CODE              Offs=000949  Size=000017  Align=00001  Fill=0000
-    DATA              Offs=000009  Size=000004  Align=00001  Fill=0000
+    CODE              Offs=000A0A  Size=000017  Align=00001  Fill=0000
+    DATA              Offs=00000C  Size=000004  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(condes.o):
-    CODE              Offs=000960  Size=00000C  Align=00001  Fill=0000
-    DATA              Offs=00000D  Size=000025  Align=00001  Fill=0000
+    CODE              Offs=000A21  Size=00000C  Align=00001  Fill=0000
+    DATA              Offs=000010  Size=000025  Align=00001  Fill=0000
     ONCE              Offs=000000  Size=00000C  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(crt0.o):
     STARTUP           Offs=000000  Size=000033  Align=00001  Fill=0000
@@ -32,33 +28,27 @@ irq.o:
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(exehdr.o):
     EXEHDR            Offs=000000  Size=00000C  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(incsp1.o):
-    CODE              Offs=00096C  Size=000007  Align=00001  Fill=0000
+    CODE              Offs=000A2D  Size=000007  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(incsp2.o):
-    CODE              Offs=000973  Size=000016  Align=00001  Fill=0000
-/Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(incsp4.o):
-    CODE              Offs=000989  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000A34  Size=000016  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(kernal.o):
-/Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(ldaxsp.o):
-    CODE              Offs=00098E  Size=000009  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(loadaddr.o):
     LOADADDR          Offs=000000  Size=000002  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(makebool.o):
-    CODE              Offs=000997  Size=00002C  Align=00001  Fill=0000
+    CODE              Offs=000A4A  Size=00002C  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(memcpy.o):
-    CODE              Offs=0009C3  Size=00003C  Align=00001  Fill=0000
+    CODE              Offs=000A76  Size=00003C  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(memset.o):
-    CODE              Offs=0009FF  Size=00005D  Align=00001  Fill=0000
+    CODE              Offs=000AB2  Size=00005D  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(popptr1.o):
-    CODE              Offs=000A5C  Size=00000E  Align=00001  Fill=0000
+    CODE              Offs=000B0F  Size=00000E  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(pusha.o):
-    CODE              Offs=000A6A  Size=000016  Align=00001  Fill=0000
+    CODE              Offs=000B1D  Size=000016  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(pushax.o):
-    CODE              Offs=000A80  Size=00001A  Align=00001  Fill=0000
+    CODE              Offs=000B33  Size=00001A  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(status.o):
-/Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(staxsp.o):
-    CODE              Offs=000A9A  Size=00000B  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(zerobss.o):
-    CODE              Offs=000AA5  Size=000023  Align=00001  Fill=0000
+    CODE              Offs=000B4D  Size=000023  Align=00001  Fill=0000
 /Users/sofiya/.vscode/extensions/entan-gl.cc65-vice-8.2.0/dist/cc65/lib/c64.lib(zeropage.o):
     ZEROPAGE          Offs=000000  Size=00001A  Align=00001  Fill=0000
 
@@ -71,66 +61,62 @@ ZEROPAGE              000002  00001B  00001A  00001
 LOADADDR              0007FF  000800  000002  00001
 EXEHDR                000801  00080C  00000C  00001
 STARTUP               00080D  00083F  000033  00001
-CODE                  000840  001307  000AC8  00001
-RODATA                001308  001EBF  000BB8  00001
-DATA                  001EC0  001EF1  000032  00001
-INIT                  001EF2  001F0D  00001C  00001
-ONCE                  001F0E  001F33  000026  00001
+CODE                  000840  0013AF  000B70  00001
+RODATA                0013B0  001F67  000BB8  00001
+DATA                  001F68  001F9C  000035  00001
+INIT                  001F9D  001FB8  00001C  00001
+ONCE                  001FB9  001FDE  000026  00001
 SPRITES               002000  0023FF  000400  00001
 
 
 Exports list by name:
 ---------------------
 BSOUT                     00FFD2 RLA    ST                        000090 RLZ    
-__BSS_RUN__               001F0E RLA    __BSS_SIZE__              000000 REA    
-__CONSTRUCTOR_COUNT__     000000 REA    __CONSTRUCTOR_TABLE__     001F34 RLA    
-__DESTRUCTOR_COUNT__      000000 REA    __DESTRUCTOR_TABLE__      001EC0 RLA    
+__BSS_RUN__               001FB9 RLA    __BSS_SIZE__              000000 REA    
+__CONSTRUCTOR_COUNT__     000000 REA    __CONSTRUCTOR_TABLE__     001FDF RLA    
+__DESTRUCTOR_COUNT__      000000 REA    __DESTRUCTOR_TABLE__      001F68 RLA    
 __EXEHDR__                000001 REA    __HEADER_LAST__           00080D RLA    
 __HIMEM__                 00D000 REA    __LOADADDR__              000001 REA    
 __MAIN_SIZE__             00C7F3 REA    __MAIN_START__            00080D RLA    
-__ONCE_RUN__              001F0E RLA    __STACKSIZE__             000800 REA    
-__STARTUP__               000001 REA    ___bzero                  00123F RLA    
-_clear_scr                0010FE RLA    _init_irq                 001126 RLA    
-_init_sprites             000D7F RLA    _irq_handler              000D3B RLA    
-_main                     0008D7 RLA    _memcpy                   001203 RLA    
-addeqysp                  00115E RLA    addysp                    00116E RLA    
-bnega                     00117F RLA    booleq                    0011DD RLA    
-boolult                   0011F6 RLA    callmain                  001189 RLA    
-donelib                   0011A0 RLA    incsp1                    0011AC RLA    
-incsp2                    0011BB RLA    incsp4                    0011C9 RLA    
-initlib                   001F0E RLA    ldaxysp                   0011D0 RLA    
-popax                     0011B3 RLA    popptr1                   00129C RLA    
-ptr1                      00000A RLZ    ptr2                      00000C RLZ    
-ptr3                      00000E RLZ    pusha                     0012AE RLA    
-pushax                    0012C4 RLA    sp                        000002 RLZ    
-staxysp                   0012DC RLA    zerobss                   0012E5 RLA    
+__ONCE_RUN__              001FB9 RLA    __STACKSIZE__             000800 REA    
+__STARTUP__               000001 REA    ___bzero                  0012F2 RLA    
+_clear_scr                0011DE RLA    _init_irq                 001206 RLA    
+_init_sprites             000E5F RLA    _irq_handler              000BB2 RLA    
+_main                     0008D7 RLA    _memcpy                   0012B6 RLA    
+bnega                     001240 RLA    booleq                    001290 RLA    
+boolne                    00128A RLA    boolult                   0012A9 RLA    
+callmain                  00124A RLA    donelib                   001261 RLA    
+incsp1                    00126D RLA    incsp2                    00127C RLA    
+initlib                   001FB9 RLA    popax                     001274 RLA    
+popptr1                   00134F RLA    ptr1                      00000A RLZ    
+ptr2                      00000C RLZ    ptr3                      00000E RLZ    
+pusha                     001361 RLA    pushax                    001377 RLA    
+sp                        000002 RLZ    zerobss                   00138D RLA    
 
 
 
 Exports list by value:
 ----------------------
-__BSS_SIZE__              000000 REA    __CONSTRUCTOR_COUNT__     000000 REA    
-__DESTRUCTOR_COUNT__      000000 REA    __EXEHDR__                000001 REA    
-__LOADADDR__              000001 REA    __STARTUP__               000001 REA    
+__CONSTRUCTOR_COUNT__     000000 REA    __BSS_SIZE__              000000 REA    
+__DESTRUCTOR_COUNT__      000000 REA    __STARTUP__               000001 REA    
+__LOADADDR__              000001 REA    __EXEHDR__                000001 REA    
 sp                        000002 RLZ    ptr1                      00000A RLZ    
 ptr2                      00000C RLZ    ptr3                      00000E RLZ    
 ST                        000090 RLZ    __STACKSIZE__             000800 REA    
 __MAIN_START__            00080D RLA    __HEADER_LAST__           00080D RLA    
-_main                     0008D7 RLA    _irq_handler              000D3B RLA    
-_init_sprites             000D7F RLA    _clear_scr                0010FE RLA    
-_init_irq                 001126 RLA    addeqysp                  00115E RLA    
-addysp                    00116E RLA    bnega                     00117F RLA    
-callmain                  001189 RLA    donelib                   0011A0 RLA    
-incsp1                    0011AC RLA    popax                     0011B3 RLA    
-incsp2                    0011BB RLA    incsp4                    0011C9 RLA    
-ldaxysp                   0011D0 RLA    booleq                    0011DD RLA    
-boolult                   0011F6 RLA    _memcpy                   001203 RLA    
-___bzero                  00123F RLA    popptr1                   00129C RLA    
-pusha                     0012AE RLA    pushax                    0012C4 RLA    
-staxysp                   0012DC RLA    zerobss                   0012E5 RLA    
-__DESTRUCTOR_TABLE__      001EC0 RLA    __ONCE_RUN__              001F0E RLA    
-__BSS_RUN__               001F0E RLA    initlib                   001F0E RLA    
-__CONSTRUCTOR_TABLE__     001F34 RLA    __MAIN_SIZE__             00C7F3 REA    
+_main                     0008D7 RLA    _irq_handler              000BB2 RLA    
+_init_sprites             000E5F RLA    _clear_scr                0011DE RLA    
+_init_irq                 001206 RLA    bnega                     001240 RLA    
+callmain                  00124A RLA    donelib                   001261 RLA    
+incsp1                    00126D RLA    popax                     001274 RLA    
+incsp2                    00127C RLA    boolne                    00128A RLA    
+booleq                    001290 RLA    boolult                   0012A9 RLA    
+_memcpy                   0012B6 RLA    ___bzero                  0012F2 RLA    
+popptr1                   00134F RLA    pusha                     001361 RLA    
+pushax                    001377 RLA    zerobss                   00138D RLA    
+__DESTRUCTOR_TABLE__      001F68 RLA    initlib                   001FB9 RLA    
+__ONCE_RUN__              001FB9 RLA    __BSS_RUN__               001FB9 RLA    
+__CONSTRUCTOR_TABLE__     001FDF RLA    __MAIN_SIZE__             00C7F3 REA    
 __HIMEM__                 00D000 REA    BSOUT                     00FFD2 RLA    
 
 
@@ -175,7 +161,7 @@ __STACKSIZE__ ([linker generated]):
 __STARTUP__ (crt0.o):
     main.o                    src/main.s:26
 ___bzero (memset.o):
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
 _clear_scr (code.o):
     main.o                    src/main.s:31
 _init_irq (irq.o):
@@ -188,30 +174,24 @@ _main (main.o):
     callmain.o                runtime/callmain.s:11
 _memcpy (memcpy.o):
     main.o                    src/main.s:27
-addeqysp (addeqsp.o):
-    main.o                    src/main.s:3811
-addysp (addysp.o):
-    incsp4.o                  runtime/incsp4.s:8
 bnega (bneg.o):
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
 booleq (makebool.o):
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
+boolne (makebool.o):
+    main.o                    src/main.s:3902
 boolult (makebool.o):
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
 callmain (callmain.o):
     crt0.o                    c64/crt0.s:9
 donelib (condes.o):
     crt0.o                    c64/crt0.s:8
 incsp1 (incsp1.o):
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
 incsp2 (incsp2.o):
     popptr1.o                 runtime/popptr1.s:8
-incsp4 (incsp4.o):
-    main.o                    src/main.s:3811
 initlib (condes.o):
     crt0.o                    c64/crt0.s:8
-ldaxysp (ldaxsp.o):
-    main.o                    src/main.s:3811
 popax (incsp2.o):
     memset.o                  common/memset.s:19
     memcpy.o                  common/memcpy.s:14
@@ -229,26 +209,21 @@ ptr3 (zeropage.o):
     memset.o                  common/memset.s:20
     memcpy.o                  common/memcpy.s:15
 pusha (pusha.o):
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
 pushax (pushax.o):
     callmain.o                runtime/callmain.s:11
-    main.o                    src/main.s:3811
+    main.o                    src/main.s:3902
+    main.o                    src/main.s:3902
 sp (zeropage.o):
     incsp2.o                  runtime/incsp2.s:8
-    addysp.o                  runtime/addysp.s:8
-    staxsp.o                  runtime/staxsp.s:8
     pushax.o                  runtime/pushax.s:8
     pusha.o                   runtime/pusha.s:8
     popptr1.o                 runtime/popptr1.s:9
     memset.o                  common/memset.s:20
     memcpy.o                  common/memcpy.s:15
-    ldaxsp.o                  runtime/ldaxsp.s:8
     incsp1.o                  runtime/incsp1.s:8
     crt0.o                    /__w/vscode-cc65-debugger/vscode-cc65-debugger/3rdparty/cc65/asminc/zeropage.inc:11
-    addeqsp.o                 runtime/addeqsp.s:8
     main.o                    src/main.s:10
-staxysp (staxsp.o):
-    main.o                    src/main.s:3811
 zerobss (zerobss.o):
     crt0.o                    c64/crt0.s:9
 
