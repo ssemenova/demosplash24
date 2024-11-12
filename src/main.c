@@ -3,9 +3,14 @@
 
 void init_irq(void);
 void init_sprites(void);
-void clear_scr(void);
+void clear_scr(char fg_color);
 
-// extern const char *neg_str;
+void set_screen_idx(char addr);
+#define set_screen(x) (set_screen_idx((int)x/256))
+
+extern volatile unsigned char chart_line[];
+extern volatile unsigned char chart_shift;
+
 #include "backgrounds.h"
 
 struct position {
@@ -24,47 +29,48 @@ struct position {
 #define CENTER 8
 #define FILLED_CENTER 9
 
-#define SPRITE_POS ((struct position *)0xd000)
-#define SPRITE0_X (*(char *)0xd000)
-#define SPRITE0_Y (*(char *)0xd001)
-#define SPRITE1_X (*(char *)0xd002)
-#define SPRITE1_Y (*(char *)0xd003)
-#define SPRITE2_X (*(char *)0xd004)
-#define SPRITE2_Y (*(char *)0xd005)
-#define SPRITE3_X (*(char *)0xd006)
-#define SPRITE3_Y (*(char *)0xd007)
-#define SPRITE4_X (*(char *)0xd008)
-#define SPRITE4_Y (*(char *)0xd009)
-#define SPRITE_X9 (*(char *)0xd010)
+#define SPRITE_POS ((volatile struct position *)0xd000)
+#define SPRITE0_X (*(volatile char *)0xd000)
+#define SPRITE0_Y (*(volatile char *)0xd001)
+#define SPRITE1_X (*(volatile char *)0xd002)
+#define SPRITE1_Y (*(volatile char *)0xd003)
+#define SPRITE2_X (*(volatile char *)0xd004)
+#define SPRITE2_Y (*(volatile char *)0xd005)
+#define SPRITE3_X (*(volatile char *)0xd006)
+#define SPRITE3_Y (*(volatile char *)0xd007)
+#define SPRITE4_X (*(volatile char *)0xd008)
+#define SPRITE4_Y (*(volatile char *)0xd009)
+#define SPRITE_X9 (*(volatile char *)0xd010)
 
-#define SPRITE_COLOR ((char *)0xd027)
-#define SPRITE0_COLOR (*(char *)0xd027)
-#define SPRITE1_COLOR (*(char *)0xd028)
-#define SPRITE2_COLOR (*(char *)0xd029)
-#define SPRITE3_COLOR (*(char *)0xd02a)
-#define SPRITE4_COLOR (*(char *)0xd02b)
+#define SPRITE_COLOR ((volatile char *)0xd027)
+#define SPRITE0_COLOR (*(volatile char *)0xd027)
+#define SPRITE1_COLOR (*(volatile char *)0xd028)
+#define SPRITE2_COLOR (*(volatile char *)0xd029)
+#define SPRITE3_COLOR (*(volatile char *)0xd02a)
+#define SPRITE4_COLOR (*(volatile char *)0xd02b)
 
-#define SPRITE_MASK (*(char *)0xd015)
+#define SPRITE_MASK (*(volatile char *)0xd015)
 
-#define SPRITE_PTR ((char *)0x07f8)
+#define SPRITE_PTR ((volatile char *)0x07f8)
 
-#define SPRITE_BASE 128
+#define SPRITE_BASE 192
 
 #define SCREEN ((char *)(0x0400))
 
-#define BG_COLOR  (*(char *)0xd021)
+#define IRQ_LINE (*(volatile char *)0xd012)
+#define BG_COLOR  (*(volatile char *)0xd021)
 #define SCREEN_COLOR ((char *) 0xd800)
 
 
 #define SCREEN1_BEGIN_TIME 240
 #define SCREEN2_BEGIN_TIME 480
 #define SCREEN3_BEGIN_TIME 720
-#define FRAME_STEP 60
+#define FRAME_STEP 48
 volatile unsigned char irq_flag = 0;
-volatile short time_counter = 0;
-volatile short curr_view = 0;
+volatile short time_counter = 8;
+volatile char arrows_visible = 1;
 
-char arrow[] = {220, 220, 220, 220, 220};
+short curr_view = 0;
 
 void init_arrows(void) {
     SPRITE0_X = 0x1f; //3
@@ -97,208 +103,197 @@ unsigned char
 main(void)
 {
 
-    init_irq();
-    clear_scr();
+    clear_scr(COLOR_BLACK);
     init_sprites();
 
-    // memcpy((char *)(0x0400 + 40*1 + 13), "hello, world!", 13);
-    memcpy(SCREEN, disco_str1, 25 * 40);
+    init_irq();
+
     BG_COLOR = COLOR_PURPLE;
-    memset(SCREEN_COLOR, COLOR_BLACK, 1000);
 
     init_arrows();
 
     while (1) {
-        while (!irq_flag);
-        irq_flag = 0;
+        static char disco_color = 0;
+        short local_time;
+        local_time = time_counter;
+        while (!irq_flag); irq_flag = 0;
+
+        if (curr_view == 0 || curr_view == 1 || curr_view == 2 || curr_view == 3)
+        {
+
+            if (local_time == 1) {
+                set_screen(disco_str1);
+                arrows_visible = 1;
+                switch (disco_color)
+                {
+                case 0:
+                    BG_COLOR = COLOR_PURPLE;
+                    break;
+                case 1:
+                    BG_COLOR = COLOR_LIGHTGREEN;
+                    break;
+                case 2:
+                    BG_COLOR = COLOR_ORANGE;
+                    break;
+                case 3:
+                    BG_COLOR = COLOR_CYAN;
+                    break;
+                case 4:
+                    BG_COLOR = COLOR_LIGHTRED;
+                    break;
+                case 5:
+                    BG_COLOR = COLOR_LIGHTBLUE;
+                    break;
+                case 6:
+                    BG_COLOR = COLOR_YELLOW;
+                    break;
+                case 7:
+                    BG_COLOR = COLOR_GRAY3;
+                    break;
+                }
+            } else if (local_time == FRAME_STEP/2) {
+                set_screen(disco_str2);
+            } else if (local_time == FRAME_STEP) {
+                time_counter = 0;
+                if (++disco_color == 8) {
+                    disco_color = 0;
+                    curr_view++;
+                }
+            }
+        }
+        else if (curr_view == 0)
+        {
+            // 2: Dancing people
+            if (local_time == 1)
+            {
+                arrows_visible = 0;
+                set_screen(dancer_str);
+            } else if (local_time == FRAME_STEP * 5) {
+                // Back to disco
+                time_counter = 0;
+                curr_view++;
+            } else {
+                if ((local_time & 31) == 0) {
+                    BG_COLOR = COLOR_WHITE;
+                } else {
+                    BG_COLOR = COLOR_LIGHTBLUE;
+                }
+            }
+
+        } else if (curr_view == 4) {
+            // 4: Hey!
+            if (local_time == 9)
+            {
+                BG_COLOR = COLOR_LIGHTBLUE;
+                arrows_visible = 0;
+                set_screen(hey_str);
+            }
+        }
     }
 
     return 0;
 }
 
-void update_arrows() {
+const char hextbl[16] = { 
+    0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+    0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46
+};
 
-    char sprite_mask = 0x00;
+#define S_____ 0
+#define SX____ 1
+#define S_X___ 2
+#define S__X__ 4
+#define S___X_ 8
+#define S____X 16
+#define SX___X 17
+#define S_X_X_ 10
+#define SX__X_ 9
+#define S_X__X 18
+#define SXXX__ 7
+#define S__XXX 28
+#define SX_X_X 21
 
-    if (arrow[0] < 56) {
-        arrow[0] = 255; 
-    } else if (arrow[0] <= 64) {
-        sprite_mask |= (1 << 0);
-        SPRITE_POS[0].y = 64;
-        SPRITE_COLOR[0] = COLOR_WHITE;
-        SPRITE_PTR[0] = SPRITE_BASE + FILLED_DOWN_LEFT; // Filled version (+1 regular)
-    } else if (arrow[0] <= 220) {
-        sprite_mask |= (1 << 0);
-        SPRITE_COLOR[0] = COLOR_BLUE;
-        SPRITE_PTR[0] = SPRITE_BASE + DOWN_LEFT;
-        SPRITE_POS[0].y = arrow[0];
-    }
+#define CHART_MASK 31
+char chart[] = {
+    S_____,
+    SX____,
+    SX____,
+    S___X_,
+    S_____,
+    S____X,
+    S____X,
+    S_X___,
 
-    if (arrow[1] < 56)
-    {
-        arrow[1] = 255;
-    }
-    else if (arrow[1] <= 64)
-    {
-        sprite_mask |= (1 << 1);
-        SPRITE_POS[1].y = 64;
-        SPRITE_COLOR[1] = COLOR_WHITE;
-        SPRITE_PTR[1] = SPRITE_BASE + FILLED_UP_LEFT; // Filled version (+1 regular)
-    }
-    else if (arrow[1] <= 220)
-    {
-        sprite_mask |= (1 << 1);
-        SPRITE_COLOR[1] = COLOR_RED;
-        SPRITE_PTR[1] = SPRITE_BASE + UP_LEFT;
-        SPRITE_POS[1].y = arrow[1];
-    }
+    S_____,
+    SX____,
+    S_X___,
+    S__X__,
+    S___X_,
+    S_X___,
+    S____X,
+    SX____,
 
-    if (arrow[2] < 56)
-    {
-        arrow[2] = 255;
-    }
-    else if (arrow[2] <= 64)
-    {
-        sprite_mask |= (1 << 2);
-        SPRITE_POS[2].y = 64;
-        SPRITE_COLOR[2] = COLOR_WHITE;
-        SPRITE_PTR[2] = SPRITE_BASE + FILLED_CENTER; // Filled version (+1 regular)
-    }
-    else if (arrow[2] <= 220)
-    {
-        sprite_mask |= (1 << 2);
-        SPRITE_COLOR[2] = COLOR_YELLOW;
-        SPRITE_PTR[2] = SPRITE_BASE + CENTER;
-        SPRITE_POS[2].y = arrow[2];
-    }
+    S_____,
+    SX___X,
+    S_X_X_,
+    SX___X,
+    S_____,
+    S_X_X_,
+    S_X_X_,
+    SX___X,
 
-    if (arrow[3] < 56)
-    {
-        arrow[3] = 255;
-    }
-    else if (arrow[3] <= 64)
-    {
-        sprite_mask |= (1 << 3);
-        SPRITE_POS[3].y = 64;
-        SPRITE_COLOR[3] = COLOR_WHITE;
-        SPRITE_PTR[3] = SPRITE_BASE + FILLED_UP_RIGHT; // Filled version (+1 regular)
-    }
-    else if (arrow[3] <= 220)
-    {
-        sprite_mask |= (1 << 3);
-        SPRITE_COLOR[3] = COLOR_RED;
-        SPRITE_PTR[3] = SPRITE_BASE + UP_RIGHT;
-        SPRITE_POS[3].y = arrow[3];
-    }
-
-    if (arrow[4] < 56)
-    {
-        arrow[4] = 255;
-    }
-    else if (arrow[4] <= 64)
-    {
-        sprite_mask |= (1 << 4);
-        SPRITE_POS[4].y = 64;
-        SPRITE_COLOR[4] = COLOR_WHITE;
-        SPRITE_PTR[4] = SPRITE_BASE + FILLED_DOWN_RIGHT; // Filled version (+1 regular)
-    }
-    else if (arrow[4] <= 220)
-    {
-        sprite_mask |= (1 << 4);
-        SPRITE_COLOR[4] = COLOR_BLUE;
-        SPRITE_PTR[4] = SPRITE_BASE + DOWN_RIGHT;
-        SPRITE_POS[4].y = arrow[4];
-    }
-
-    SPRITE_MASK = sprite_mask;
-}
+    S__X__,
+    S_____,
+    SX__X_,
+    S_X__X,
+    S_____,
+    S__XXX,
+    SXXX__,
+    SX_X_X,
+};
 
 void irq_handler(void) {
-    static char x = 0;
-    static unsigned char arrows_visible = 1;
+    static char shift = 64;
+    static char step = 0;
+
+    // prints current y position in top left
+    // SCREEN[0] = hextbl[shift >> 4];
+    // SCREEN[1] = hextbl[shift & 15];
 
     irq_flag = 1;
 
-    // *(char *)(0xd020) = x++ >> 4; // Border changing colors
-
-    if (curr_view == 0 || curr_view == 1 || curr_view == 3)
-    {
-        // 0, 1: First two rounds of flashing disco balls
-        // 3: One round of flashing disco balls
-        if (time_counter == 1)
-        {
-            arrows_visible = 1;
-            BG_COLOR = COLOR_PURPLE;
-            if (curr_view != 0) 
-            {
-                // Screen already copied at the very beginning
-                memcpy(SCREEN, disco_str1, 25 * 40);
-            }
-        } if (time_counter == FRAME_STEP)
-        {
-            BG_COLOR = COLOR_LIGHTGREEN;
-        }
-        else if (time_counter == FRAME_STEP * 2)
-        {
-            BG_COLOR = COLOR_ORANGE;
-        }
-        else if (time_counter == FRAME_STEP * 3)
-        {
-            BG_COLOR = COLOR_CYAN;
-        }
-        else if (time_counter == FRAME_STEP * 4)
-        {
-            BG_COLOR = COLOR_LIGHTRED;
-        }
-        else if (time_counter == FRAME_STEP * 5)
-        {
-            BG_COLOR = COLOR_LIGHTBLUE;
-        } else if (time_counter == FRAME_STEP * 6) {
-            time_counter = 0;
-            curr_view++;
-        }
-    }
-    else if (curr_view == 2)
-    {
-        // 2: Dancing people
-        if (time_counter == 1)
-        {
-            arrows_visible = 0;
-            memcpy(SCREEN, dancer_str, 25 * 40);
-        } else if (time_counter == FRAME_STEP * 5) {
-            // Back to disco
-            time_counter = 0;
-            curr_view++;
-        }
-    } else if (curr_view == 4) {
-        // 4: Hey!
-        if (time_counter == 1)
-        {
-            arrows_visible = 0;
-            memcpy(SCREEN, hey_str, 25 * 40);
-        }
-    }
 
     if (arrows_visible)
     {
-        update_arrows();
+        // update_arrows();
 
-        arrow[0]--;
-        arrow[1]--;
-        arrow[2]--;
-        arrow[3]--;
-        arrow[4]--;
+        // arrow[0]--;
+        // arrow[1]--;
+        // arrow[2]--;
+        // arrow[3]--;
+        // arrow[4]--;
+
+        if (!shift) {
+            chart_line[0] = chart[(step + 0)&CHART_MASK];
+            chart_line[1] = chart[(step + 1)&CHART_MASK];
+            chart_line[2] = chart[(step + 2)&CHART_MASK];
+            chart_line[3] = chart[(step + 3)&CHART_MASK];
+            chart_line[4] = chart[(step + 4)&CHART_MASK];
+            step++;
+            shift = 48;
+        }
+        if ((time_counter & 0) == 0) {
+            shift -= 1;
+        }
+
+        chart_shift = shift;
+
     } else {
-        arrow[0] = 220;
-        arrow[1] = 220;
-        arrow[2] = 220;
-        arrow[3] = 220;
-        arrow[4] = 220;
-        SPRITE_POS[0].y = 0;
-        SPRITE_POS[1].y = 0;
-        SPRITE_POS[2].y = 0;
-        SPRITE_POS[3].y = 0;
-        SPRITE_POS[4].y = 0;
+        chart_line[0] = chart[0];
+        chart_line[1] = chart[0];
+        chart_line[2] = chart[0];
+        chart_line[3] = chart[0];
+        chart_line[4] = chart[0];
     }
 
     time_counter++;

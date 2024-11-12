@@ -1,5 +1,5 @@
 .segment "SPRITES"
-.org $2000
+.org $3000
 sprite_data:
     .res 1024
 .reloc
@@ -30,7 +30,6 @@ color_lightgray = $c
 color_lightgreen = $d
 color_lightblue = $e
 
-sprite_pointer       = sprite_data / 64
 .export _init_sprites
 _init_sprites:
     ;====================
@@ -52,14 +51,14 @@ sprite_copy_loop:
     ; Initialize Memory
     ;====================
 
-    lda #sprite_pointer+0
-    sta $0400 + $3f8
-    lda #sprite_pointer+1
-    sta $0400 + $3f9
-    lda #sprite_pointer+2
-    sta $0400 + $3fa
-    lda #sprite_pointer+3
-    sta $0400 + $3fb
+    ; lda #sprite_pointer+0
+    ; sta $0400 + $3f8
+    ; lda #sprite_pointer+1
+    ; sta $0400 + $3f9
+    ; lda #sprite_pointer+2
+    ; sta $0400 + $3fa
+    ; lda #sprite_pointer+3
+    ; sta $0400 + $3fb
 
     ;============================
     ; Initialize VIC-II registers
@@ -107,7 +106,7 @@ sprite_copy_loop:
 
 
 
-
+.segment "DATA"
 
 arrow_bin:
 arrow_upleft:
